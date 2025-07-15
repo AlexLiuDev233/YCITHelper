@@ -47,6 +47,25 @@ public class YcithelperConfigScreenFactory {
         SubCategoryBuilder categoryBasic = entryBuilder.startSubCategory(Text.translatable("options.ycithelper.category.basic"));
         categoryBasic.add(logFilterToggle);
         configCat.addEntry(categoryBasic.build());
+
+
+        // Enable Auto Fishing
+        BooleanListEntry autoFishingToggle = entryBuilder.startBooleanToggle(Text.translatable("options.ycithelper.enable.autoFishing"), config.isEnableLogFilter())
+                .setYesNoTextSupplier(textSupplier)
+                .setDefaultValue(true)
+                .setTooltip(
+                        Text.translatable("options.ycithelper.config.tooltip.autoFishing1"),
+                        Text.translatable("options.ycithelper.config.tooltip.autoFishing2")
+                )
+                .setSaveConsumer(value -> {
+                    config.setEnableAutoFishing(value);
+                    AutoConfig.getConfigHolder(ModConfig.class).save();
+                })
+                .build();
+        SubCategoryBuilder categoryDangerous = entryBuilder.startSubCategory(Text.translatable("options.ycithelper.category.dangerous"));
+        categoryDangerous.add(entryBuilder.startTextDescription(Text.translatable("options.ycithelper.category.dangerous.warning")).setColor(0xFFFF0000).build());// 君子协定
+        categoryDangerous.add(autoFishingToggle);
+        configCat.addEntry(categoryDangerous.build());
         return builder.build();
     }
 }

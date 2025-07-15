@@ -15,5 +15,11 @@
   "options.ycithelper.config.tooltip.enableLogFilter1": "注册log4j2 Filter",
   "options.ycithelper.config.tooltip.enableLogFilter2": "自动拦截日志中的“Received passengers for unknown entity”警告",
 
-  "options.ycithelper.category.basic": "基本设置"
+  "options.ycithelper.enable.autoFishing": "启用自动钓鱼",
+  "options.ycithelper.config.tooltip.autoFishing1": "通过检测副标题,获取鱼已上钩通知",
+  "options.ycithelper.config.tooltip.autoFishing2": "然后模拟使用物品，进行捕鱼",
+
+  "options.ycithelper.category.basic": "基本设置",
+  "options.ycithelper.category.dangerous": "危险设置",
+  "options.ycithelper.category.dangerous.warning": "此类型的设置均不受YC官方支持，你可能会被管理施加封禁等限制。你已受到警告"
 }
