@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "ycithelper",
+  "version": "${version}",
+  "name": "YourCraft Internal Test Helper",
+  "description": "在客户端尽可能减轻bug等带来的影响，使你在YC内测中有更好的游戏体验",
+  "authors": [
+    "LoveElysia_",
+    "SlowlySnowfall"
+  ],
+  "contact": {
+    "QQ_LoveElysia": "2226848130",
+    "QQ_SlowlySnowfall": "3633945084",
+    "sources": "https://github.com/AlexLiuDev233/YCITHelper"
+  },
+  "icon": "assets/ycithelper/icon.jpg",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "me.alexliudev.ycithelper.YcithelperClient"
+    ],
+    "modmenu": [
+      "me.alexliudev.ycithelper.modmenu.ModMenuSupport"
+    ]
+  },
+  "mixins": [
+    "ycithelper.mixins.json"
+  ],
+  "depends": {
+    "fabric": "*",
+    "cloth-config": "*",
+    "minecraft": "*"
+  }
+}

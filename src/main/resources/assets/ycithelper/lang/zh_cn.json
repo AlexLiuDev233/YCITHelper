@@ -1,0 +1,19 @@
+{
+  "modmenu.descriptionTranslation.ycithelper": "钓鱼一定要用鱼竿!",
+  "modmenu.nameTranslation.ycithelper": "Yourcraft",
+  "options.ycithelper.title": "Yourcraft",
+
+  "options.ycithelper.description1": "本mod用于在客户端提升在内测的游戏体验",
+  "options.ycithelper.description2": "如果你有建议的功能/bug修复",
+  "options.ycithelper.description3": "欢迎联系作者：2226848130或3633945084",
+  "options.ycithelper.description4": "作者：LoveElysia&SlowlySnowfall",
+
+  "options.ycithelper.on": "开",
+  "options.ycithelper.off": "关",
+
+  "options.ycithelper.enable.logfilter": "拦截垃圾消息输出",
+  "options.ycithelper.config.tooltip.enableLogFilter1": "注册log4j2 Filter",
+  "options.ycithelper.config.tooltip.enableLogFilter2": "自动拦截日志中的“Received passengers for unknown entity”警告",
+
+  "options.ycithelper.category.basic": "基本设置"
+}
