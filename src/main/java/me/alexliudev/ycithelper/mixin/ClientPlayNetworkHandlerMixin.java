@@ -29,6 +29,7 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
             if (!packet.text().getString().contains("右键")) return;
             if (client.player == null) return;
             if (client.player.fishHook == null) return;
+            YcithelperClient.successFishing = true;
             YcithelperClient.useItem(client);
         }
     }

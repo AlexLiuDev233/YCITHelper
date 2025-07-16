@@ -19,6 +19,11 @@
   "options.ycithelper.config.tooltip.autoFishing1": "通过检测副标题,获取鱼已上钩通知",
   "options.ycithelper.config.tooltip.autoFishing2": "然后模拟使用物品，进行捕鱼",
 
+  "options.ycithelper.enable.persistentFishing": "持久钓鱼配置",
+  "options.ycithelper.config.tooltip.persistentFishing1": "拜YC bug所赐，我们鱼竿时不时就钓不上来鱼了(卡鱼)",
+  "options.ycithelper.config.tooltip.persistentFishing2": "这里设置最大超时时间(单位:秒) 超出时长就会重新开始钓鱼",
+  "options.ycithelper.config.tooltip.persistentFishing3": "可输入范围:0-60,此处设置为0，关闭持久钓鱼检测",
+
   "options.ycithelper.config.baritone.not_loaded": "Baritone 未安装! 自动寻路无法进行! 如果您确信您已安装 unoptimized 版本的baritone，请携带日志联系作者",
   "options.ycithelper.config.baritone.click_record": "记录鱼群坐标点",
   "options.ycithelper.config.baritone.click_record.description1": "为Baritone全自动钓鱼记录坐标点",

@@ -25,22 +25,32 @@ import java.util.Map;
 public class YcithelperClient implements ClientModInitializer {
     public static boolean tryMoving = false;
     public static int nextId = 0;
+    private ModConfig config;
 
     @Override
     public void onInitializeClient() {
         AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
         // Init Spam Fix
         ((Logger) LogManager.getRootLogger()).addFilter(new LogFilter());
+        configHolder = AutoConfig.getConfigHolder(ModConfig.class);
+        config = configHolder.getConfig();
+
         // Init Baritone
         if (BaritoneBridge.isBaritoneLoaded()) {
             if (!BaritoneBridge.initialize()) return;// Baritone加载失败
-            configHolder = AutoConfig.getConfigHolder(ModConfig.class);
-            ClientTickEvents.END_CLIENT_TICK.register(this::onBaritoneTick);
             ClientReceiveMessageEvents.GAME.register((text, bool) -> {
                 if (!"鱼群中没有鱼了...".equals(text.getString()) && !"你不在鱼群范围内钓鱼".equals(text.getString())) return;// 不要使用contains，否则如果服务端装了NCP，那样会导致其他人可以遥控你!
+                successFishing = false;
+                scheduleOfPersistentFishing = 0;
                 goToNextPosition();
             });
         }
+
+        // Init Fishing
+        ClientTickEvents.END_CLIENT_TICK.register((minecraftClient -> {
+            if (BaritoneBridge.isBaritoneLoaded()) onBaritoneTick(minecraftClient);
+            if (config.isEnableAutoFishing()) onPersistentFishingTick(minecraftClient);
+        }));
     }
 
     public static void goToNextPosition() {
@@ -98,11 +108,11 @@ public class YcithelperClient implements ClientModInitializer {
         });
     }
 
-    private int schedule = 0;
+    private int scheduleOfBaritone = 0;
     public void onBaritoneTick(MinecraftClient client) {
-        schedule++;
-        if (schedule >= 10) {
-            schedule = 0;
+        scheduleOfBaritone++;
+        if (scheduleOfBaritone >= 10) {
+            scheduleOfBaritone = 0;
             // 处理 自动钓鱼 时每10ticks跳一次(Windows默认长按空格，500ms发一次)
             processJump(client);
             // 处理 路径点扫描(这里只是借用10ticks,玩家不可能飞出去，所以慢慢跑就行)
@@ -179,5 +189,23 @@ public class YcithelperClient implements ClientModInitializer {
         }
         client.interactionManager.interactItem(client.player, Hand.MAIN_HAND);
 
+    }
+
+    public static boolean successFishing = false;
+    private int scheduleOfPersistentFishing = 0;
+    private void onPersistentFishingTick(MinecraftClient minecraftClient) {
+        if (successFishing) {
+            scheduleOfPersistentFishing = 0;
+            return;
+        }
+        if (minecraftClient.player == null) return;
+        if (minecraftClient.player.fishHook == null) return;
+        scheduleOfPersistentFishing++;
+        if (scheduleOfPersistentFishing >= 20 * config.getPersistentFishingTimeout()) {
+            scheduleOfPersistentFishing = 0;
+            // 检测!
+            useItem(minecraftClient);
+            useItem(minecraftClient);
+        }
     }
 }

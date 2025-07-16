@@ -8,14 +8,15 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
+import me.shedaniel.clothconfig2.gui.entries.IntegerListEntry;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
 public class YcithelperConfigScreenFactory {
@@ -81,9 +82,25 @@ public class YcithelperConfigScreenFactory {
                     AutoConfig.getConfigHolder(ModConfig.class).save();
                 })
                 .build();
+        // Enable Persistent Fishing
+        IntegerListEntry persistentFishingTimeout = entryBuilder.startIntField(Text.translatable("options.ycithelper.enable.persistentFishing"), config.getPersistentFishingTimeout())
+                .setMin(0)
+                .setMax(60)
+                .setDefaultValue(8)
+                .setTooltip(
+                        Text.translatable("options.ycithelper.config.tooltip.persistentFishing1"),
+                        Text.translatable("options.ycithelper.config.tooltip.persistentFishing2"),
+                        Text.translatable("options.ycithelper.config.tooltip.persistentFishing3")
+                )
+                .setSaveConsumer(value -> {
+                    config.setPersistentFishingTimeout(value);
+                    AutoConfig.getConfigHolder(ModConfig.class).save();
+                })
+                .build();
         SubCategoryBuilder categoryDangerous = entryBuilder.startSubCategory(Text.translatable("options.ycithelper.category.dangerous"));
         categoryDangerous.add(entryBuilder.startTextDescription(Text.translatable("options.ycithelper.category.dangerous.warning")).setColor(0xFFFF0000).build());// 君子协定
         categoryDangerous.add(autoFishingToggle);
+        categoryDangerous.add(persistentFishingTimeout);
         // Baritone
         if (!BaritoneBridge.isBaritoneLoaded()) {
             categoryDangerous.add(entryBuilder.startTextDescription(Text.translatable("options.ycithelper.config.baritone.not_loaded")).build());
