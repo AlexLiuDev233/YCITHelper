@@ -44,6 +44,8 @@ public class YcithelperClient implements ClientModInitializer {
     }
 
     public static void goToNextPosition() {
+        ModConfig config = configHolder.getConfig();
+        if (!config.isEnableAutoFishing()) return;
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) return;
         tryMoving = true;
@@ -51,8 +53,7 @@ public class YcithelperClient implements ClientModInitializer {
             useItem(client);
             if (client.player.fishHook != null) useItem(client);
         }
-        ModConfig config = configHolder.getConfig();
-        BlockPos targetPos = null;
+        BlockPos targetPos;
         try {
             targetPos = config.getFishes().get(nextId);
             nextId++;
