@@ -70,7 +70,7 @@ public class YcithelperConfigScreenFactory {
 
 
         // Enable Auto Fishing
-        BooleanListEntry autoFishingToggle = entryBuilder.startBooleanToggle(Text.translatable("options.ycithelper.enable.autoFishing"), config.isEnableLogFilter())
+        BooleanListEntry autoFishingToggle = entryBuilder.startBooleanToggle(Text.translatable("options.ycithelper.enable.autoFishing"), config.isEnableAutoFishing())
                 .setYesNoTextSupplier(textSupplier)
                 .setDefaultValue(false)
                 .setTooltip(
