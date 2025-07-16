@@ -29,6 +29,10 @@
   "depends": {
     "fabric": "*",
     "cloth-config": "*",
-    "minecraft": "*"
+    "minecraft": "*",
+    "fabric-api": "*"
+  },
+  "recommends": {
+    "baritone": "*"
   }
 }

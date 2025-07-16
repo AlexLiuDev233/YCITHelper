@@ -19,7 +19,31 @@
   "options.ycithelper.config.tooltip.autoFishing1": "通过检测副标题,获取鱼已上钩通知",
   "options.ycithelper.config.tooltip.autoFishing2": "然后模拟使用物品，进行捕鱼",
 
+  "options.ycithelper.config.baritone.not_loaded": "Baritone 未安装! 自动寻路无法进行! 如果您确信您已安装 unoptimized 版本的baritone，请携带日志联系作者",
+  "options.ycithelper.config.baritone.click_record": "记录鱼群坐标点",
+  "options.ycithelper.config.baritone.click_record.description1": "为Baritone全自动钓鱼记录坐标点",
+  "options.ycithelper.config.baritone.click_record.description2": "您可在“鱼群坐标点列表”配置中管理坐标点",
+  "options.ycithelper.config.baritone.click_record.description3": "务必处于游戏中!",
+  "options.ycithelper.config.baritone.add": "记录",
+  "options.ycithelper.config.baritone.remove": "删除",
+  "options.ycithelper.config.baritone.go": "出发!",
+  "options.ycithelper.config.baritone.clear": "清空!",
+
+  "options.ycithelper.config.baritone.try_go_to": "尝试移动到鱼群",
+  "options.ycithelper.config.baritone.try_go_to.description": "将会直接走到下一鱼群点",
+
+  "options.ycithelper.config.baritone.auto_scan": "开启自动记录鱼群坐标",
+  "options.ycithelper.config.baritone.auto_scan.description1": "开启此选项后，请走过所有鱼群点，将会自动记录位置",
+  "options.ycithelper.config.baritone.auto_scan.description2": "不建议一边自动钓鱼，一边开着这个，保不齐会不会出什么幺蛾子...",
+
+  "options.ycithelper.config.baritone.reset_all_positions": "清空鱼群坐标点列表",
+  "options.ycithelper.config.baritone.reset_all_positions.description": "此操作不可撤销!",
+
+  "options.ycithelper.enable.debuglog": "显示调试日志",
+  "options.ycithelper.config.tooltip.debuglog": "不建议在正常游戏中打开，可能会影响游戏体验",
+
   "options.ycithelper.category.basic": "基本设置",
   "options.ycithelper.category.dangerous": "危险设置",
-  "options.ycithelper.category.dangerous.warning": "此类型的设置均不受YC官方支持，你可能会被管理施加封禁等限制。你已受到警告"
+  "options.ycithelper.category.dangerous.warning": "此类型的设置均不受YC官方支持，你可能会被管理施加封禁等限制。你已受到警告",
+  "options.ycithelper.category.baritone_positions": "鱼群坐标点列表"
 }

@@ -2,14 +2,33 @@ package me.alexliudev.ycithelper;
 
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
+import net.minecraft.util.math.BlockPos;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Config(name = "ycithelper")
 public class ModConfig implements ConfigData {
     private boolean enableLogFilter = true;
+    private boolean enableLog = false;
     private boolean enableAutoFishing = false;
+    private boolean enableAutoScan = false;
+    private final List<BlockPos> fishes = new ArrayList<>();
+
+    public boolean isEnableLog() {
+        return enableLog;
+    }
+
+    public void setEnableLog(boolean enableLog) {
+        this.enableLog = enableLog;
+    }
 
     public boolean isEnableLogFilter() {
         return enableLogFilter;
+    }
+
+    public List<BlockPos> getFishes() {
+        return fishes;
     }
 
     public void setEnableLogFilter(boolean enableLogFilter) {
@@ -22,5 +41,13 @@ public class ModConfig implements ConfigData {
 
     public void setEnableAutoFishing(boolean enableAutoFishing) {
         this.enableAutoFishing = enableAutoFishing;
+    }
+
+    public void setEnableAutoScan(boolean enableAutoScan) {
+        this.enableAutoScan = enableAutoScan;
+    }
+
+    public boolean isEnableAutoScan() {
+        return enableAutoScan;
     }
 }
