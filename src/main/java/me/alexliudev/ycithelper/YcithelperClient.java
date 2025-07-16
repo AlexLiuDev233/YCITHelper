@@ -204,7 +204,8 @@ public class YcithelperClient implements ClientModInitializer {
         if (scheduleOfPersistentFishing >= 20 * config.getPersistentFishingTimeout()) {
             scheduleOfPersistentFishing = 0;
             // 检测!
-            useItem(minecraftClient);
+            client.player.getInventory().selectedSlot = 0;
+            client.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(0));
             useItem(minecraftClient);
         }
     }
