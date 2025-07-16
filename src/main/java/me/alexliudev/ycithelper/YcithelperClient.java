@@ -37,7 +37,7 @@ public class YcithelperClient implements ClientModInitializer {
             configHolder = AutoConfig.getConfigHolder(ModConfig.class);
             ClientTickEvents.END_CLIENT_TICK.register(this::onBaritoneTick);
             ClientReceiveMessageEvents.GAME.register((text, bool) -> {
-                if (!"鱼群中没有鱼了...".equals(text.getString())) return;// 不要使用contains，否则如果服务端装了NCP，那样会导致其他人可以遥控你!
+                if (!"鱼群中没有鱼了...".equals(text.getString()) && !"你不在鱼群范围内钓鱼".equals(text.getString())) return;// 不要使用contains，否则如果服务端装了NCP，那样会导致其他人可以遥控你!
                 goToNextPosition();
             });
         }
