@@ -14,7 +14,7 @@ public class ModConfig implements ConfigData {
     private boolean enableAutoFishing = false;
     private boolean enableAutoScan = false;
     private final List<BlockPos> fishes = new ArrayList<>();
-    private int persistentFishingTimeout = 0;
+    private int persistentFishingTimeout = 8;
 
     public boolean isEnableLog() {
         return enableLog;
