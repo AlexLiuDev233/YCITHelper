@@ -167,17 +167,6 @@ public class YcithelperClient implements ClientModInitializer {
         if (client.world.getBlockState(client.player.getBlockPos().add(0,1,0)).isAir()) return;
         client.player.jump();
         client.player.setOnGround(false);
-        client.getNetworkHandler().sendPacket(
-                new PlayerMoveC2SPacket.Full(
-                        client.player.getX(),
-                        client.player.getY(),
-                        client.player.getZ(),
-                        client.player.getYaw(),
-                        client.player.getPitch(),
-                        client.player.isOnGround(),
-                        false
-                )
-        );
     }
 
     public static void useItem(MinecraftClient client) {
@@ -204,6 +193,7 @@ public class YcithelperClient implements ClientModInitializer {
             scheduleOfPersistentFishing = 0;
             return;
         }
+        if (minecraftClient.player.fishHook == null)  return;
         scheduleOfPersistentFishing++;
         if (scheduleOfPersistentFishing >= 20 * config.getPersistentFishingTimeout()) {
             scheduleOfPersistentFishing = 0;
