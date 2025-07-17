@@ -87,7 +87,7 @@ public class YcithelperClient implements ClientModInitializer {
             nextId = 0;
             try {
                 targetPos = config.getFishes().getFirst();
-            } catch (IndexOutOfBoundsException e2) {
+            } catch (NoSuchElementException e2) {
                 // 配置文件没配置，取消操作
                 tryMoving = false;
                 return;
