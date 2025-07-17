@@ -27,7 +27,7 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
             ModConfig config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
             if (YcithelperClient.tryMoving) return;// 正在尝试移动位置
             if (!config.isEnableAutoFishing()) return;
-            if (!packet.text().getString().contains("右键")) return;
+            if (!packet.text().getString().contains("右键") && !packet.text().getString().contains("点击")) return;
             if (client.player == null) return;
             if (client.player.fishHook == null) return;
             if (config.isEnableLog()) MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.of("持久钓鱼：结束定时! 原因：收到Subtitle"));
