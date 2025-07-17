@@ -1,6 +1,9 @@
 package me.alexliudev.ycithelper;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.block.Block;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 // 由于作者不想在编译时去编译Baritone，所以此处使用魔法来访问Baritone
@@ -41,6 +45,12 @@ public class BaritoneBridge {
 
             Object sprintInWaterObject = baritoneSettings.getClass().getDeclaredField("sprintInWater").get(baritoneSettings);
             sprintInWaterObject.getClass().getDeclaredField("value").set(sprintInWaterObject, true);
+
+            Object blocksToAvoidObject = baritoneSettings.getClass().getDeclaredField("blocksToAvoid").get(baritoneSettings);
+            List<Block> blocksToAvoid = (List<Block>) blocksToAvoidObject.getClass().getDeclaredField("value").get(blocksToAvoidObject);
+            Registries.BLOCK.iterateEntries(BlockTags.FENCE_GATES).forEach(tag -> blocksToAvoid.add(tag.value()));
+            Registries.BLOCK.iterateEntries(BlockTags.DOORS).forEach(tag -> blocksToAvoid.add(tag.value()));
+            Registries.BLOCK.iterateEntries(BlockTags.TRAPDOORS).forEach(tag -> blocksToAvoid.add(tag.value()));
             // 设置目的地API获取
             Object baritoneProvider = baritoneApi.getDeclaredMethod("getProvider").invoke(null);
             Object baritone = baritoneProvider.getClass().getDeclaredMethod("getPrimaryBaritone").invoke(baritoneProvider);
