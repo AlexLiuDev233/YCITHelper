@@ -23,6 +23,7 @@ public class BaritoneBridge {
     private static Method mostRecentGoalMethod;
     private static Object customGoalProcessObject;
     private static boolean failedInit = false;
+    private static List<Block> blocksToAvoid;
 
     private static Constructor<?> goalBlockClassConstructor;
 
@@ -47,10 +48,7 @@ public class BaritoneBridge {
             sprintInWaterObject.getClass().getDeclaredField("value").set(sprintInWaterObject, true);
 
             Object blocksToAvoidObject = baritoneSettings.getClass().getDeclaredField("blocksToAvoid").get(baritoneSettings);
-            List<Block> blocksToAvoid = (List<Block>) blocksToAvoidObject.getClass().getDeclaredField("value").get(blocksToAvoidObject);
-            Registries.BLOCK.iterateEntries(BlockTags.FENCE_GATES).forEach(tag -> blocksToAvoid.add(tag.value()));
-            Registries.BLOCK.iterateEntries(BlockTags.DOORS).forEach(tag -> blocksToAvoid.add(tag.value()));
-            Registries.BLOCK.iterateEntries(BlockTags.TRAPDOORS).forEach(tag -> blocksToAvoid.add(tag.value()));
+            blocksToAvoid = (List<Block>) blocksToAvoidObject.getClass().getDeclaredField("value").get(blocksToAvoidObject);
             // 设置目的地API获取
             Object baritoneProvider = baritoneApi.getDeclaredMethod("getProvider").invoke(null);
             Object baritone = baritoneProvider.getClass().getDeclaredMethod("getPrimaryBaritone").invoke(baritoneProvider);
@@ -107,6 +105,12 @@ public class BaritoneBridge {
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }
+    }
+
+    public static void onClientStarted() {
+        Registries.BLOCK.iterateEntries(BlockTags.FENCE_GATES).forEach(tag -> blocksToAvoid.add(tag.value()));
+        Registries.BLOCK.iterateEntries(BlockTags.DOORS).forEach(tag -> blocksToAvoid.add(tag.value()));
+        Registries.BLOCK.iterateEntries(BlockTags.TRAPDOORS).forEach(tag -> blocksToAvoid.add(tag.value()));
     }
 
 }

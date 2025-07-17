@@ -5,6 +5,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
@@ -54,6 +55,9 @@ public class YcithelperClient implements ClientModInitializer {
                 if (config.isEnableLog()) MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.of("持久钓鱼：重置定时! 原因：收到远程消息"));
                 scheduleOfPersistentFishing = 0;
                 goToNextPosition();
+            });
+            ClientLifecycleEvents.CLIENT_STARTED.register((client) -> {
+                BaritoneBridge.onClientStarted();
             });
         }
 
