@@ -50,5 +50,8 @@
   "options.ycithelper.category.basic": "基本设置",
   "options.ycithelper.category.dangerous": "危险设置",
   "options.ycithelper.category.dangerous.warning": "此类型的设置均不受YC官方支持，你可能会被管理施加封禁等限制。你已受到警告",
-  "options.ycithelper.category.baritone_positions": "鱼群坐标点列表"
+  "options.ycithelper.category.baritone_positions": "鱼群坐标点列表",
+
+  "keybinding.ycithelper.key.openconfig": "打开配置界面",
+  "keybinding.ycithelper.category.ycithelper": "YCITHelper"
 }

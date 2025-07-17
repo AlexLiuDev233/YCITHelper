@@ -1,21 +1,25 @@
 package me.alexliudev.ycithelper;
 
+import me.alexliudev.ycithelper.modmenu.YcithelperConfigScreenFactory;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.DisplayEntity;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +30,7 @@ public class YcithelperClient implements ClientModInitializer {
     public static boolean tryMoving = false;
     public static int nextId = 0;
     private ModConfig config;
+    private KeyBinding configMenuOpenKeyBinding;
 
     @Override
     public void onInitializeClient() {
@@ -34,6 +39,14 @@ public class YcithelperClient implements ClientModInitializer {
         ((Logger) LogManager.getRootLogger()).addFilter(new LogFilter());
         configHolder = AutoConfig.getConfigHolder(ModConfig.class);
         config = configHolder.getConfig();
+
+        // Init Config Hotkey
+        configMenuOpenKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "keybinding.ycithelper.key.openconfig",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_C,
+                "keybinding.ycithelper.category.ycithelper"
+        ));
 
         // Init Baritone
         if (BaritoneBridge.isBaritoneLoaded()) {
@@ -51,6 +64,7 @@ public class YcithelperClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register((minecraftClient -> {
             if (BaritoneBridge.isBaritoneLoaded()) onBaritoneTick(minecraftClient);
             if (config.isEnableAutoFishing()) onPersistentFishingTick(minecraftClient);
+            onKeyBindingTick(minecraftClient);
         }));
     }
 
@@ -203,5 +217,10 @@ public class YcithelperClient implements ClientModInitializer {
             minecraftClient.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(0));
             useItem(minecraftClient);
         }
+    }
+
+    private void onKeyBindingTick(MinecraftClient minecraftClient) {
+        if (!configMenuOpenKeyBinding.wasPressed()) return;
+        minecraftClient.setScreen(YcithelperConfigScreenFactory.build(minecraftClient.currentScreen));
     }
 }
