@@ -41,6 +41,7 @@ public class YcithelperClient implements ClientModInitializer {
             ClientReceiveMessageEvents.GAME.register((text, bool) -> {
                 if (!"鱼群中没有鱼了...".equals(text.getString()) && !"你不在鱼群范围内钓鱼".equals(text.getString())) return;// 不要使用contains，否则如果服务端装了NCP，那样会导致其他人可以遥控你!
                 successFishing = false;
+                if (config.isEnableLog()) MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.of("持久钓鱼：重置定时! 原因：收到远程消息"));
                 scheduleOfPersistentFishing = 0;
                 goToNextPosition();
             });
@@ -194,15 +195,19 @@ public class YcithelperClient implements ClientModInitializer {
     public static boolean successFishing = false;
     private int scheduleOfPersistentFishing = 0;
     private void onPersistentFishingTick(MinecraftClient minecraftClient) {
-        if (successFishing) {
+        if (minecraftClient.player == null) return;
+        if (successFishing && minecraftClient.player.fishHook == null) {
+            successFishing = false;
+            if (config.isEnableLog()) MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.of("持久钓鱼：重置定时! 原因：已收杆"));
+        }
+        if (successFishing || tryMoving) {
             scheduleOfPersistentFishing = 0;
             return;
         }
-        if (minecraftClient.player == null) return;
-        if (minecraftClient.player.fishHook == null) return;
         scheduleOfPersistentFishing++;
         if (scheduleOfPersistentFishing >= 20 * config.getPersistentFishingTimeout()) {
             scheduleOfPersistentFishing = 0;
+            if (config.isEnableLog()) minecraftClient.inGameHud.getChatHud().addMessage(Text.of("持久钓鱼：定时时间已到!"));
             // 检测!
             minecraftClient.player.getInventory().selectedSlot = 0;
             minecraftClient.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(0));

@@ -9,6 +9,7 @@ import net.minecraft.client.network.ClientConnectionState;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.s2c.play.SubtitleS2CPacket;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -29,6 +30,7 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
             if (!packet.text().getString().contains("右键")) return;
             if (client.player == null) return;
             if (client.player.fishHook == null) return;
+            if (config.isEnableLog()) MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.of("持久钓鱼：结束定时! 原因：收到Subtitle"));
             YcithelperClient.successFishing = true;
             YcithelperClient.useItem(client);
         }
