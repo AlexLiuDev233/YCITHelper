@@ -21,10 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class YcithelperClient implements ClientModInitializer {
     public static boolean tryMoving = false;
@@ -192,13 +189,24 @@ public class YcithelperClient implements ClientModInitializer {
             client.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(5));
         }
         client.interactionManager.interactItem(client.player, Hand.MAIN_HAND);
-
     }
 
     public static boolean successFishing = false;
+    public static boolean waitReDrop = false;
     private int scheduleOfPersistentFishing = 0;
+    private int scheduleOfReDropFishHook = 0;
     private void onPersistentFishingTick(MinecraftClient minecraftClient) {
         if (minecraftClient.player == null) return;
+
+        if (waitReDrop) {
+            scheduleOfReDropFishHook++;
+            if (scheduleOfReDropFishHook >= 10) {
+                useItem(minecraftClient);
+                waitReDrop = false;
+            }
+            return;
+        } else scheduleOfReDropFishHook = 0;
+
         if (successFishing && minecraftClient.player.fishHook == null) {
             successFishing = false;
             if (config.isEnableLog()) MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.of("持久钓鱼：重置定时! 原因：已收杆"));
@@ -214,8 +222,8 @@ public class YcithelperClient implements ClientModInitializer {
             if (config.isEnableLog()) minecraftClient.inGameHud.getChatHud().addMessage(Text.of("持久钓鱼：定时时间已到!"));
             // 检测!
             minecraftClient.player.getInventory().selectedSlot = 0;
-            minecraftClient.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(0));
-            useItem(minecraftClient);
+            Objects.requireNonNull(minecraftClient.getNetworkHandler()).sendPacket(new UpdateSelectedSlotC2SPacket(0));
+            waitReDrop = true;
         }
     }
 
