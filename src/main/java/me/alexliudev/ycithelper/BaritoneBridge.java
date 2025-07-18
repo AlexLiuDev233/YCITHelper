@@ -24,6 +24,7 @@ public class BaritoneBridge {
     private static Object customGoalProcessObject;
     private static boolean failedInit = false;
     private static List<Block> blocksToAvoid;
+    private static Object allowSprintObject,allowBreakObject,sprintInWaterObject;
 
     private static Constructor<?> goalBlockClassConstructor;
 
@@ -38,14 +39,11 @@ public class BaritoneBridge {
             Class<?> baritoneApi = Class.forName("baritone.api.BaritoneAPI");
             // 配置设置
             Object baritoneSettings = baritoneApi.getDeclaredMethod("getSettings").invoke(null);
-            Object allowSprintObject = baritoneSettings.getClass().getDeclaredField("allowSprint").get(baritoneSettings);
-            allowSprintObject.getClass().getDeclaredField("value").set(allowSprintObject, true);
+            allowSprintObject = baritoneSettings.getClass().getDeclaredField("allowSprint").get(baritoneSettings);
 
-            Object allowBreakObject = baritoneSettings.getClass().getDeclaredField("allowBreak").get(baritoneSettings);
-            allowBreakObject.getClass().getDeclaredField("value").set(allowBreakObject, false);
+            allowBreakObject = baritoneSettings.getClass().getDeclaredField("allowBreak").get(baritoneSettings);
 
-            Object sprintInWaterObject = baritoneSettings.getClass().getDeclaredField("sprintInWater").get(baritoneSettings);
-            sprintInWaterObject.getClass().getDeclaredField("value").set(sprintInWaterObject, true);
+            sprintInWaterObject = baritoneSettings.getClass().getDeclaredField("sprintInWater").get(baritoneSettings);
 
             Object blocksToAvoidObject = baritoneSettings.getClass().getDeclaredField("blocksToAvoid").get(baritoneSettings);
             blocksToAvoid = (List<Block>) blocksToAvoidObject.getClass().getDeclaredField("value").get(blocksToAvoidObject);
@@ -107,10 +105,17 @@ public class BaritoneBridge {
         }
     }
 
-    public static void onClientStarted() {
-        Registries.BLOCK.iterateEntries(BlockTags.FENCE_GATES).forEach(tag -> blocksToAvoid.add(tag.value()));
-        Registries.BLOCK.iterateEntries(BlockTags.DOORS).forEach(tag -> blocksToAvoid.add(tag.value()));
-        Registries.BLOCK.iterateEntries(BlockTags.TRAPDOORS).forEach(tag -> blocksToAvoid.add(tag.value()));
+    public static void onClientWorldLoaded() {
+        try {
+            Registries.BLOCK.iterateEntries(BlockTags.FENCE_GATES).forEach(tag -> blocksToAvoid.add(tag.value()));
+            Registries.BLOCK.iterateEntries(BlockTags.DOORS).forEach(tag -> blocksToAvoid.add(tag.value()));
+            Registries.BLOCK.iterateEntries(BlockTags.TRAPDOORS).forEach(tag -> blocksToAvoid.add(tag.value()));
+            allowSprintObject.getClass().getDeclaredField("value").set(allowSprintObject, true);
+            allowBreakObject.getClass().getDeclaredField("value").set(allowBreakObject, false);
+            sprintInWaterObject.getClass().getDeclaredField("value").set(sprintInWaterObject, true);
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package me.alexliudev.ycithelper.mixin;
 
+import me.alexliudev.ycithelper.BaritoneBridge;
 import me.alexliudev.ycithelper.ModConfig;
 import me.alexliudev.ycithelper.YcithelperClient;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -8,6 +9,7 @@ import net.minecraft.client.network.ClientCommonNetworkHandler;
 import net.minecraft.client.network.ClientConnectionState;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.ClientConnection;
+import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 import net.minecraft.network.packet.s2c.play.SubtitleS2CPacket;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,5 +36,11 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
             YcithelperClient.successFishing = true;
             YcithelperClient.useItem(client);
         }
+    }
+
+    @Inject(method = "onGameJoin", at = @At("TAIL"))
+    public void onGameJoin(GameJoinS2CPacket packet, CallbackInfo ci) {
+        if (BaritoneBridge.isBaritoneLoaded())
+            BaritoneBridge.onClientWorldLoaded();
     }
 }

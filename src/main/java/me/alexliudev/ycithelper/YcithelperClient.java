@@ -56,9 +56,6 @@ public class YcithelperClient implements ClientModInitializer {
                 scheduleOfPersistentFishing = 0;
                 goToNextPosition();
             });
-            ClientLifecycleEvents.CLIENT_STARTED.register((client) -> {
-                BaritoneBridge.onClientStarted();
-            });
         }
 
         // Init Fishing
