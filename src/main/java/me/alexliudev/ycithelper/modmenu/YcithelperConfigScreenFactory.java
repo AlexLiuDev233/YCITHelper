@@ -98,7 +98,7 @@ public class YcithelperConfigScreenFactory {
                 })
                 .build();
         // Enable Persistent Fishing Redrop
-        BooleanListEntry persistentFishingRedropTimeout = entryBuilder.startBooleanToggle(Text.translatable("options.ycithelper.enable.persistentFishing.redrop"), config.isEnableAutoFishing())
+        BooleanListEntry persistentFishingRedropTimeout = entryBuilder.startBooleanToggle(Text.translatable("options.ycithelper.enable.persistentFishing.redrop"), config.isEnablePersistentFishingRedrop())
                 .setYesNoTextSupplier(textSupplier)
                 .setDefaultValue(false)
                 .setTooltip(
