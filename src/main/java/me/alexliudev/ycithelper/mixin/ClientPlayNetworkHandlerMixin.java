@@ -55,6 +55,8 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
         if (client.player == null) return;
         if (client.world == null) return;
         client.player.swingHand(Hand.MAIN_HAND);
+        if (client.player.fishHook == null)
+            YcithelperClient.useItem(client);
     }
 
     @Inject(method = "onGameJoin", at = @At("TAIL"))
