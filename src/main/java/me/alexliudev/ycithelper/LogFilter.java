@@ -22,6 +22,8 @@ public class LogFilter implements Filter {
     public Result checkMessage(String message) {
         if (!AutoConfig.getConfigHolder(ModConfig.class).getConfig().isEnableLogFilter()) return Result.NEUTRAL;
         if (message.startsWith("Received passengers for unknown entity")) return Result.DENY;
+        if (message.startsWith("Unable to play empty soundEvent:")) return Result.DENY;
+        if (message.startsWith("Received packet for unknown objective")) return Result.DENY;
         return Result.NEUTRAL;
     }
 
