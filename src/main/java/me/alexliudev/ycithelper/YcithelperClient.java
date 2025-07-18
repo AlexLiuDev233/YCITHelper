@@ -61,6 +61,7 @@ public class YcithelperClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register((minecraftClient -> {
             if (BaritoneBridge.isBaritoneLoaded()) onBaritoneTick(minecraftClient);
             if (config.isEnableAutoFishing()) onPersistentFishingTick(minecraftClient);
+            if (config.isEnableAutoFishing() && config.isEnablePersistentFishingRedrop()) onPersistentFishingRedropTick(minecraftClient);
             onKeyBindingTick(minecraftClient);
         }));
     }
@@ -226,6 +227,19 @@ public class YcithelperClient implements ClientModInitializer {
             minecraftClient.player.getInventory().selectedSlot = 0;
             Objects.requireNonNull(minecraftClient.getNetworkHandler()).sendPacket(new UpdateSelectedSlotC2SPacket(0));
             waitReDrop = true;
+        }
+    }
+
+    private int scheduleOfPersistentFishingReDrop = 0;
+    private void onPersistentFishingRedropTick(MinecraftClient minecraftClient) {
+        scheduleOfPersistentFishingReDrop++;
+        if (scheduleOfPersistentFishingReDrop >= 20*10) {
+            scheduleOfPersistentFishingReDrop = 0;
+            if (tryMoving) return;
+            if (minecraftClient.player == null) return;
+            if (minecraftClient.player.fishHook != null) return;
+            if (config.isEnableLog()) MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.of("持久钓鱼-自动抛竿：超时!自动抛竿"));
+            useItem(minecraftClient);
         }
     }
 

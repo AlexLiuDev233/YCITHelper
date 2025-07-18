@@ -7,6 +7,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.api.Requirement;
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.gui.entries.IntegerListEntry;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
@@ -96,10 +97,25 @@ public class YcithelperConfigScreenFactory {
                     AutoConfig.getConfigHolder(ModConfig.class).save();
                 })
                 .build();
+        // Enable Persistent Fishing Redrop
+        BooleanListEntry persistentFishingRedropTimeout = entryBuilder.startBooleanToggle(Text.translatable("options.ycithelper.enable.persistentFishing.redrop"), config.isEnableAutoFishing())
+                .setYesNoTextSupplier(textSupplier)
+                .setDefaultValue(false)
+                .setTooltip(
+                        Text.translatable("options.ycithelper.config.tooltip.persistentFishing.redrop1"),
+                        Text.translatable("options.ycithelper.config.tooltip.persistentFishing.redrop2"),
+                        Text.translatable("options.ycithelper.config.tooltip.persistentFishing.redrop3")
+                )
+                .setSaveConsumer(value -> {
+                    config.setEnablePersistentFishingRedrop(value);
+                    AutoConfig.getConfigHolder(ModConfig.class).save();
+                })
+                .build();
         SubCategoryBuilder categoryDangerous = entryBuilder.startSubCategory(Text.translatable("options.ycithelper.category.dangerous"));
         categoryDangerous.add(entryBuilder.startTextDescription(Text.translatable("options.ycithelper.category.dangerous.warning")).setColor(0xFFFF0000).build());// 君子协定
         categoryDangerous.add(autoFishingToggle);
         categoryDangerous.add(persistentFishingTimeout);
+        categoryDangerous.add(persistentFishingRedropTimeout);
         // Baritone
         if (!BaritoneBridge.isBaritoneLoaded()) {
             categoryDangerous.add(entryBuilder.startTextDescription(Text.translatable("options.ycithelper.config.baritone.not_loaded")).build());
@@ -154,7 +170,7 @@ public class YcithelperConfigScreenFactory {
             );
             categoryDangerous.add(
                     entryBuilder.startBooleanToggle(Text.translatable("options.ycithelper.config.baritone.reset_all_positions"), true)
-                            .setDefaultValue(false)
+                            .setDefaultValue(true)
                             .setYesNoTextSupplier((value) -> {
                                 if (value) return Text.translatable("options.ycithelper.config.baritone.clear");
                                 config.getFishes().clear();

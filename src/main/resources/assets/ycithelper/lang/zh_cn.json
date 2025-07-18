@@ -24,6 +24,11 @@
   "options.ycithelper.config.tooltip.persistentFishing2": "这里设置最大超时时间(单位:秒) 超出时长就会重新开始钓鱼",
   "options.ycithelper.config.tooltip.persistentFishing3": "可输入范围:0-60,此处设置为0，关闭持久钓鱼检测",
 
+  "options.ycithelper.enable.persistentFishing.redrop": "启用持久钓鱼-自动抛竿",
+  "options.ycithelper.config.tooltip.persistentFishing.redrop1": "此设置与上方的持久钓鱼没有直接依赖关系",
+  "options.ycithelper.config.tooltip.persistentFishing.redrop2": "此设置启用后，每10秒将会扫描一次您手上是否为钓鱼竿",
+  "options.ycithelper.config.tooltip.persistentFishing.redrop3": "如果是，且为抛出，启用后将会自动抛出",
+
   "options.ycithelper.config.baritone.not_loaded": "Baritone 未安装! 自动寻路无法进行! 如果您确信您已安装 unoptimized 版本的baritone，请携带日志联系作者",
   "options.ycithelper.config.baritone.click_record": "记录鱼群坐标点",
   "options.ycithelper.config.baritone.click_record.description1": "为Baritone全自动钓鱼记录坐标点",

@@ -13,6 +13,7 @@ public class ModConfig implements ConfigData {
     private boolean enableLog = false;
     private boolean enableAutoFishing = false;
     private boolean enableAutoScan = false;
+    private boolean enablePersistentFishingRedrop = false;
     private final List<BlockPos> fishes = new ArrayList<>();
     private int persistentFishingTimeout = 8;
 
@@ -58,5 +59,13 @@ public class ModConfig implements ConfigData {
 
     public void setPersistentFishingTimeout(int persistentFishingTimeout) {
         this.persistentFishingTimeout = persistentFishingTimeout;
+    }
+
+    public void setEnablePersistentFishingRedrop(boolean enablePersistentFishingRedrop) {
+        this.enablePersistentFishingRedrop = enablePersistentFishingRedrop;
+    }
+
+    public boolean isEnablePersistentFishingRedrop() {
+        return enablePersistentFishingRedrop;
     }
 }
