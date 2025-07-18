@@ -195,7 +195,7 @@ public class YcithelperClient implements ClientModInitializer {
 
     public static boolean successFishing = false;
     public static boolean waitReDrop = false;
-    private int scheduleOfPersistentFishing = 0;
+    public static int scheduleOfPersistentFishing = 0;
     private int scheduleOfReDropFishHook = 0;
     private void onPersistentFishingTick(MinecraftClient minecraftClient) {
         if (minecraftClient.player == null) return;
