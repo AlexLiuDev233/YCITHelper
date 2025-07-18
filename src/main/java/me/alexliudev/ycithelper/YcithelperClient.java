@@ -5,7 +5,6 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
@@ -50,7 +49,7 @@ public class YcithelperClient implements ClientModInitializer {
         if (BaritoneBridge.isBaritoneLoaded()) {
             if (!BaritoneBridge.initialize()) return;// Baritone加载失败
             ClientReceiveMessageEvents.GAME.register((text, bool) -> {
-                if (!"鱼群中没有鱼了...".equals(text.getString()) && !"你不在鱼群范围内钓鱼".equals(text.getString())) return;// 不要使用contains，否则如果服务端装了NCP，那样会导致其他人可以遥控你!
+                if (!"鱼群中没有鱼了...".equals(text.getString()) && !"你不在鱼群范围内钓鱼".equals(text.getString()) && !"鱼群发生变动".equals(text.getString())) return;// 不要使用contains，否则如果服务端装了NCP，那样会导致其他人可以遥控你!
                 successFishing = false;
                 if (config.isEnableLog()) MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.of("持久钓鱼：重置定时! 原因：收到远程消息"));
                 scheduleOfPersistentFishing = 0;
@@ -182,6 +181,8 @@ public class YcithelperClient implements ClientModInitializer {
     }
 
     public static void useItem(MinecraftClient client) {
+        if (configHolder.getConfig().isEnableLog())
+            client.inGameHud.getChatHud().addMessage(Text.of("自动钓鱼：使用手中物品!"));
         if (client.player == null) return;
         if (client.world == null) return;
         if (client.interactionManager == null) return;
